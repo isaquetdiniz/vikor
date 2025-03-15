@@ -106,7 +106,10 @@ Esse projeto está todo documento nesse mesmo reposítório, [clique aqui](/docs
 
 ## Créditos
 
-No momento está projeto está sendo desenvolvido e mantido por [Isaque Diniz - itd](https://github.com/isaquetdiniz).
+No momento está projeto está sendo desenvolvido e mantido por 
+
+- [Isaque Diniz - itd](https://github.com/isaquetdiniz)
+- [Gabriel Albertin - gav](https://github.com/gavgabriel)
 
 <a href="https://github.com/isaquetdiniz/vikor/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=isaquetdiniz/vikor" />
