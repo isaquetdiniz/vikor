@@ -1,5 +1,3 @@
-![image](https://github.com/user-attachments/assets/cbe04a24-b3d7-425d-ba11-491b39e2b4a2)
-
 <a href="https://vikor.vercel.app">
 <img align="center" src="https://github.com/user-attachments/assets/cbe04a24-b3d7-425d-ba11-491b39e2b4a2" alt="Imagem do personagem Vikor">
 </a>
