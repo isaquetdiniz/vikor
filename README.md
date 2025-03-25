@@ -112,6 +112,7 @@ No momento está projeto está sendo desenvolvido e mantido por
 - [Gabriel Albertin - gav](https://github.com/gavgabriel)
 - [Ícaro Samico - ias6](https://github.com/Icaroamazonas)
 - [Lucas Távora - lnt](https://github.com/tavoralucas)
+- [Maria Bezerra - mbma](https://github.com/mariabdma)
 <a href="https://github.com/isaquetdiniz/vikor/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=isaquetdiniz/vikor" />
 </a>
