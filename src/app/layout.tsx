@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "VIKOR",
+	title: "VIKOR - Method Decision Making Tool",
 	description:
 		"Projeto de interface para o método Multi-Criteria Decision Making (MCDM) VIKOR",
 };
