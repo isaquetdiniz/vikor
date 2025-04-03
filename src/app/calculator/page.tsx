@@ -7,7 +7,7 @@ export default function Home() {
 	return (
 		<main className="container mx-auto py-10 px-4">
 			<Link href="/">
-				<Button size="lg" className="gap-2">
+				<Button size="lg" className="cursor-pointer gap-2">
 					<ArrowLeft className="h-4 w-4" /> Back
 				</Button>
 			</Link>

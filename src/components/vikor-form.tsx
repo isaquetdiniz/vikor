@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -8,10 +8,9 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Slider } from "@/components/ui/slider"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { calculateVIKOR } from "@/lib/vikor-calculator"
 import { VIKORResults } from "@/components/vikor-results"
 import { VIKORJsonInput } from "@/components/vikor-json-input"
-import type { VIKORParameters } from "@/lib/types"
+import type { VIKORParameters, VIKORResult } from "@/lib/types"
 
 export function VIKORForm() {
   const [alternatives, setAlternatives] = useState<string[]>(["A1", "A2", "A3"])
@@ -32,7 +31,9 @@ export function VIKORForm() {
     C3: 0.3,
   })
   const [v, setV] = useState<number>(0.5)
-  const [results, setResults] = useState<any>(null)
+  const [results, setResults] = useState<VIKORResult | null>(null)
+  //Pyodide
+  const [pyodide, setPyodide] = useState(null);
 
   const addAlternative = () => {
     const newAlt = `A${alternatives.length + 1}`
@@ -152,8 +153,13 @@ export function VIKORForm() {
       v,
     }
 
-    const result = calculateVIKOR(params)
-    setResults(result)
+    //@ts-ignore
+    const getResults = pyodide.globals.get("get_results");
+    const resultString = getResults(JSON.stringify({ method: "VIKOR", parameters: params }));
+    const result = JSON.parse(resultString)
+    console.log("Python", result)
+
+    setResults(result.results)
   }
 
   const handleJsonSubmit = (data: VIKORParameters) => {
@@ -164,16 +170,50 @@ export function VIKORForm() {
     setWeights(data.weights)
     setV(data.v)
 
-    const result = calculateVIKOR(data)
-    setResults(result)
+
+    //@ts-ignore
+    const getResults = pyodide.globals.get("get_results");
+    const resultString = getResults(JSON.stringify({ method: "VIKOR", parameters: data }));
+    const result = JSON.parse(resultString)
+    console.log("Python", result)
+
+    setResults(result.results)
   }
+
+  const loadPyodideAndPackages = async () => {
+    try {
+      //@ts-ignore
+      const pyodideInstance = await window.loadPyodide();
+      await pyodideInstance.loadPackage("micropip");
+      await pyodideInstance.runPythonAsync(`
+        import micropip
+        await micropip.install("sad-cin==0.1.1")
+        from sad_cin import decision_support
+        import json
+
+        def get_results(json_str):
+            data = json.loads(json_str)
+            result = decision_support(data)
+            return json.dumps(result)
+        `);
+      setPyodide(pyodideInstance);
+    } catch (error) {
+      console.error("Erro ao carregar o Pyodide:", error);
+    } finally {
+      console.info("Pyodide carregou!")
+    }
+  }
+
+  useEffect(() => {
+    loadPyodideAndPackages();
+  }, []);
 
   return (
     <div className="max-w-4xl mx-auto">
       <Tabs defaultValue="form">
         <TabsList className="grid w-full grid-cols-2 mb-6">
-          <TabsTrigger value="form">Manual Input</TabsTrigger>
-          <TabsTrigger value="json">JSON Input</TabsTrigger>
+          <TabsTrigger className="cursor-pointer" value="form">Manual Input</TabsTrigger>
+          <TabsTrigger className="cursor-pointer" value="json">JSON Input</TabsTrigger>
         </TabsList>
 
         <TabsContent value="form">
@@ -188,7 +228,7 @@ export function VIKORForm() {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <Label>Alternatives</Label>
-                    <Button variant="outline" size="sm" onClick={addAlternative}>
+                    <Button className="cursor-pointer" variant="outline" size="sm" onClick={addAlternative}>
                       Add Alternative
                     </Button>
                   </div>
@@ -210,6 +250,7 @@ export function VIKORForm() {
                         }}
                       />
                       <Button
+                        className="cursor-pointer"
                         variant="ghost"
                         size="sm"
                         onClick={() => removeAlternative(index)}
@@ -224,7 +265,7 @@ export function VIKORForm() {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <Label>Criteria</Label>
-                    <Button variant="outline" size="sm" onClick={addCriterion}>
+                    <Button className="cursor-pointer" variant="outline" size="sm" onClick={addCriterion}>
                       Add Criterion
                     </Button>
                   </div>
@@ -251,6 +292,7 @@ export function VIKORForm() {
                         }}
                       />
                       <Button
+                        className="cursor-pointer"
                         variant="ghost"
                         size="sm"
                         onClick={() => removeCriterion(index)}
@@ -329,7 +371,7 @@ export function VIKORForm() {
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <Label>Criteria Weights</Label>
-                  <Button variant="outline" size="sm" onClick={normalizeWeights}>
+                  <Button className="cursor-pointer" variant="outline" size="sm" onClick={normalizeWeights}>
                     Normalize Weights
                   </Button>
                 </div>
@@ -370,7 +412,7 @@ export function VIKORForm() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button onClick={handleSubmit} className="w-full">
+              <Button onClick={handleSubmit} className="cursor-pointer w-full">
                 Calculate VIKOR
               </Button>
             </CardFooter>

@@ -25,6 +25,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
+			<head>
+				<script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js" />
+			</head>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>

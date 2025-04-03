@@ -134,7 +134,7 @@ export function VIKORJsonInput({ onSubmit }: VIKORJsonInputProps) {
         )}
       </CardContent>
       <CardFooter>
-        <Button onClick={handleSubmit} className="w-full">
+        <Button onClick={handleSubmit} className="cursor-pointer w-full">
           Apply JSON Parameters
         </Button>
       </CardFooter>

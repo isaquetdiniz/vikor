@@ -24,7 +24,7 @@ export default function Home() {
 				</p>
 				<div className="mt-8">
 					<Link href="/calculator">
-						<Button size="lg" className="gap-2">
+						<Button size="lg" className="cursor-pointer gap-2">
 							Go to Calculator <ArrowRight className="h-4 w-4" />
 						</Button>
 					</Link>
@@ -319,7 +319,7 @@ export default function Home() {
 					Ready to Make Better Decisions?
 				</h2>
 				<Link href="/calculator">
-					<Button size="lg" className="gap-2">
+					<Button size="lg" className="cursor-pointer gap-2">
 						Go to VIKOR Calculator <ArrowRight className="h-4 w-4" />
 					</Button>
 				</Link>
