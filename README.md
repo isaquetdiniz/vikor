@@ -28,8 +28,6 @@
 
 <br/>
 
-## Screenshots
-
 ## Início Rápido
 
 Essas instruções fornecerão uma cópia do projeto instalada e funcionando na sua máquina local para fins de desenvolvimento e teste.
@@ -87,11 +85,10 @@ npm run test
 
 ## Funcionalidades
 
-- Funcionalidade 1
+- Visualização gráfica para auxilio a decisão
 
-- Funcionalidade 2
+- Conexão com a lógica de decisão
 
-- Funcionalidade 3
 
 ## Tecnologias
 
